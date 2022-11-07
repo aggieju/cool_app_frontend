@@ -20,7 +20,25 @@ export const SpaceDetails = () => {
     return (
         <div>
             <h2>Space details</h2>
+            {!postSpace.stories
+                ? ("Loading"
+                ) : <div >
+                    {postSpace.stories.map((story) => {
+                        return (
+                            <div key={story.id} style={{
+                                color: `${postSpace.color}`,
+                                backgroundColor: `${postSpace.backgroundColor}`,
+                            }}>
+                                <p>Story name {story.name}</p>
+                                <p>Story content {story.content}</p>
+                                <p>Story image ({story.imageUrl})</p>
+                            </div>
+                        );
+                    })}
 
+                </div>
+
+            }
 
         </div>
     );

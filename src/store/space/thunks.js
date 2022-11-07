@@ -10,7 +10,7 @@ export const fetchSpaces = () => async (dispatch, getState) => {
 };
 
 export const fetchSpacesId = (id) => async (dispatch, getState) => {
-    const response = await axios.get(`${apiUrl}/${id}`);
-    console.log("response spaces id", response.data);
-    //   dispatch(postSpace(response.data));
+    const responseId = await axios.get(`${apiUrl}/${id}`);
+    console.log("response spaces id", responseId.data);
+    dispatch(postSpace(responseId.data));
 };
