@@ -1,26 +1,56 @@
-import { Title } from "../styled"
-import { Link } from "react-router-dom"
-import { LinkWord } from "../styled"
-import styled from "styled-components"
+import { useEffect } from "react";
+//import { Title } from "../styled"
+//import { Link } from "react-router-dom"
+//import { LinkWord } from "../styled"
+//import styled from "styled-components"
+import { useSelector, useDispatch } from "react-redux";
+import { fetchSpaces } from "../store/space/thunks"
+import { selectSpace } from "../store/space/selectors";
+import { useNavigate } from "react-router-dom";
+
 
 export const Homepage = () => {
 
+  const dispatch = useDispatch();
+  const postSpace = useSelector(selectSpace);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(fetchSpaces());
+  }, [dispatch]);
+
+
+
   return (
-    <Container>
-     <h3>Hello there 👋</h3>
-     <p>General information:</p>
-     <ul>
-      <li>Go to your backend and modify the config url</li>
-      <li>Make sure you clicked on the <b>use template</b> button on github</li>
-      <li>This template is using <a style={LinkWord} target="_blank" href="https://styled-components.com/">styled components</a>, you don't have to use it</li>
-      <li>You don't have to follow the folder structure, feel free to adapt to your own</li>
-      <li>Login and SignUp are already implemented</li>
-      <li>Modify this page to create your own homeepage</li>
-     </ul>
-    </Container>
-  )
+    <div>
+      <h2>Spaces</h2>
+      {!postSpace
+        ? ("Loading"
+        ) : <div>
+          {postSpace.map((space) => {
+            return (
+              <div key={space.id}
+                style={{
+                  color: `${space.color}`,
+                  backgroundColor: `${space.backgroundColor}`,
+                }}>
+                <p>Space title: {space.title}</p>
+                <p>Description {space.description}</p>
+                <button onClick={() => navigate(`${space.id}`)}>Space details</button>
+              </div>
+            );
+          })}
+
+        </div>
+
+      }
+
+    </div>
+  );
+
+
+
+
 }
 
-const Container = styled.div`
-  margin: 20px
-`
+export default Homepage;
